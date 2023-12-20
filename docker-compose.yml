@@ -1,0 +1,53 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:latest
+    container_name: my-mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: "dataparser"
+      MYSQL_ROOT_HOST: "%"
+    restart: on-failure
+    ports:
+      - "3300:3306"
+    volumes:
+      - ../database:/var/lib/mysql
+    networks:
+      - app-network
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: data-parser-server
+    container_name: data-parser-node-server
+    depends_on:
+      - mysql
+    restart: on-failure
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+  client:
+    build:
+      context: ./frontend/data-parser
+      dockerfile: Dockerfile
+    image: data-parser-client
+    container_name: data-parser-react-client
+    env_file:
+      - ./frontend/data-parser/.env
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - server
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
