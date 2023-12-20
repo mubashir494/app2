@@ -1,0 +1,4 @@
+./backend/node_modules/*
+./frontend/data-parser/node_modules/*
+./backend/.env
+./frontend/data-parser/.env 
