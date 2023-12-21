@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const URL = isProduction
   ? process.env.REACT_APP_URL
-  : "http://localhost:3001";
+  : "http://localhost:3000";
 
 export const createCounty = (data) => {
   return axios.post(`${URL}/data/county`, data);

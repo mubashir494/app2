@@ -199,6 +199,17 @@ const Display = () => {
                       </h2>
                       <AccordionPanel>
                         <List>
+                        <ListItem fontSize={20}>
+                            <Text
+                              fontSize={20}
+                              color={"teal"}
+                              as={"span"}
+                              fontWeight={"bold"}
+                            >
+                              Id :
+                            </Text>{" "}
+                            {element && element.id ? element.id : <></>}
+                          </ListItem>
                           <ListItem fontSize={20}>
                             <Text
                               fontSize={20}
@@ -230,10 +241,10 @@ const Display = () => {
                               as={"span"}
                               fontWeight={"bold"}
                             >
-                              Contact :
+                              Address 2 :
                             </Text>{" "}
-                            {element && element.contact ? (
-                              element.contact
+                            {element && element.addr2 ? (
+                              element.addr2
                             ) : (
                               <></>
                             )}
@@ -245,9 +256,9 @@ const Display = () => {
                               as={"span"}
                               fontWeight={"bold"}
                             >
-                              email :
+                              Billing type :
                             </Text>{" "}
-                            {element && element.email ? element.email : <></>}
+                            {element && element.address_type ? element.address_type : <></>}
                           </ListItem>
                           <ListItem fontSize={20}>
                             <Text
@@ -256,9 +267,9 @@ const Display = () => {
                               as={"span"}
                               fontWeight={"bold"}
                             >
-                              Active :
+                              City :
                             </Text>{" "}
-                            {element && element.active ? element.active : <></>}
+                            {element && element.city ? element.city : <></>}
                           </ListItem>
                           <ListItem fontSize={20}>
                             <Text
@@ -267,10 +278,10 @@ const Display = () => {
                               as={"span"}
                               fontWeight={"bold"}
                             >
-                              Close out Date :
+                              State :
                             </Text>{" "}
-                            {element && element.closeoutdate ? (
-                              element.closeoutdate
+                            {element && element.state ? (
+                              element.state
                             ) : (
                               <></>
                             )}
@@ -282,14 +293,71 @@ const Display = () => {
                               as={"span"}
                               fontWeight={"bold"}
                             >
-                              Phone no :
+                              Country :
                             </Text>{" "}
-                            {element && element.phone ? element.phone : <></>}
+                            {element && element.country ? (
+                              element.country
+                            ) : (
+                              <></>
+                            )}
+                          </ListItem>
+                          <ListItem fontSize={20}>
+                            <Text
+                              fontSize={20}
+                              color={"teal"}
+                              as={"span"}
+                              fontWeight={"bold"}
+                            >
+                              Guarantor :
+                            </Text>{" "}
+                            {element && element.guarantor ? element.guarantor : <></>}
+                          </ListItem>
+                          <ListItem fontSize={20}>
+                            <Text
+                              fontSize={20}
+                              color={"teal"}
+                              as={"span"}
+                              fontWeight={"bold"}
+                            >
+                              CustomerId Wireless :
+                            </Text>{" "}
+                            {element && element.id1 ? element.id1 : <></>}
+                          </ListItem>
+                          <ListItem fontSize={20}>
+                            <Text
+                              fontSize={20}
+                              color={"teal"}
+                              as={"span"}
+                              fontWeight={"bold"}
+                            >
+                              CustomerId fttx_data :
+                            </Text>{" "}
+                            {element && element.id2 ? element.id2 : <></>}
+                          </ListItem>
+                          <ListItem fontSize={20}>
+                            <Text
+                              fontSize={20}
+                              color={"teal"}
+                              as={"span"}
+                              fontWeight={"bold"}
+                            >
+                              CustomerId fttx_data :
+                            </Text>{" "}
+                            {element && element.id2 ? element.id2 : <></>}
+                          </ListItem>
+                          <ListItem fontSize={20}>
+                            <Text
+                              fontSize={20}
+                              color={"teal"}
+                              as={"span"}
+                              fontWeight={"bold"}
+                            >
+                              CustomerId DSL Data :
+                            </Text>{" "}
+                            {element && element.id3 ? element.id3 : <></>}
                           </ListItem>
                         </List>
-                        <Box textStyle="h2" mt="10px">
-                          Services
-                        </Box>
+                        
 
                         {element.fttx_data && element.fttx_data.length > 0 ? (
                           element.fttx_data.map((element) => {
