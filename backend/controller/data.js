@@ -353,10 +353,12 @@ export const searchZip = async (req, res) => {
     const query = `%${req.body.query}%`;
     if (query.length >= 4) {
       const re =
-        await prisma.$queryRaw`SELECT dataparser.owner.id as id,dataparser.owner.name as name,dataparser.owner.street as street,dataparser.owner.mailing as mailing,dataparser.owner.postalCode as postalCode,dataparser.owner.type as type,dataparser.owner.addresscsz as addresscsz,dataparser.address.id as addressId FROM dataparser.owner AS owner
-      JOIN dataparser.address AS address ON owner.street = address.street
+        await prisma.$queryRaw`SELECT owner.id as id,owner.name as name,owner.street as street,owner.mailing as mailing,owner.postalCode as postalCode,owner.type as type,owner.addresscsz as addresscsz,address.id as addressId FROM owner AS owner
+      JOIN address AS address ON owner.street = address.street
       WHERE (owner.street != '' AND address.street != '')
       AND (owner.postalCode LIKE ${query} OR owner.addresscsz LIKE ${query});`;
+
+      console.log("Searching Zip")
 
       if (page && pageSize) {
         const startIndex = (page - 1) * pageSize;
