@@ -352,19 +352,51 @@ export const searchZip = async (req, res) => {
     const pageSize = req.query.size;
     const query = `%${req.body.query}%`;
     if (query.length >= 4) {
-      const re =
-        await prisma.$queryRaw`SELECT owner.id as id,owner.name as name,owner.street as street,owner.mailing as mailing,owner.postalCode as postalCode,owner.type as type,owner.addresscsz as addresscsz,address.id as addressId FROM owner AS owner
-      JOIN address AS address ON owner.street = address.street
-      WHERE (owner.street != '' AND address.street != '')
-      AND (owner.postalCode LIKE ${query} OR owner.addresscsz LIKE ${query});`;
 
-      console.log("Searching Zip")
-
+      const re = await prisma.owner.findMany({
+        where : {
+          AND : [
+            {OR : [
+              {
+                postalCode : {
+                  contains : req.body.query
+                }
+              },
+              {
+                addresscsz : {
+                  contains : req.body.query
+                }
+              }
+            ]},
+            {
+              street : {
+                not : ''
+              }
+            }
+          ]
+        }
+      });
       if (page && pageSize) {
         const startIndex = (page - 1) * pageSize;
         const endIndex = page * pageSize;
         const paginatedResult = re.slice(startIndex, endIndex);
         const totalPages = Math.ceil(re.length / pageSize);
+
+
+        for(let i =0;i<paginatedResult.length;i++){
+          let address = await prisma.address.findFirst({
+            where : {
+              street : paginatedResult[i].street
+            }
+          })
+          if(address != null){
+            
+            paginatedResult[i].addressId = address.id
+          }
+        }
+
+        
+        console.log(paginatedResult)
         res.status(200).json({ result: paginatedResult, totalPages });
       } else {
         res.status(200).json({ result: re });
