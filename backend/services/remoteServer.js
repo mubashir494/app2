@@ -3,7 +3,7 @@ export const searchCustomer = async (db, query) => {
   console.log(query)
   try {
     const customerData = await db.query(
-      `select c.id,c.name,c.guarantor,address_type.name as address_type ,a.addr1,a.addr2,a.city,a.state,a.zip,a.country,
+      `select Distinct c.id,c.name,c.guarantor,address_type.name as address_type ,a.addr1,a.addr2,a.city,a.state,a.zip,a.country,
       svc1.crid as id1 ,svc2.crid as id2 ,svc3.crid as id3
     from customer c
       inner join address a on c.id=a.idnum and a.idtype='customer'
@@ -15,11 +15,29 @@ export const searchCustomer = async (db, query) => {
       OR a.city like Upper('%${str}%') OR a.state like Upper('%${str}%')
       OR a.zip like Upper('%${str}%') OR a.country like Upper('%${str}%')
     order by c.id`)
-    console.log("Data")
+    
+    let crid = []
+    let result = []
+
     console.log(customerData.recordset)
+    for (let i = 0;i<customerData.recordset.length;i++){
+
+      if(!crid.includes(customerData.recordset[i].id)){
+        customerData.recordset[i].address_type = [customerData.recordset[i].address_type]
+        result.push(customerData.recordset[i])
+        crid.push(customerData.recordset[i].id)
+      }
+      else{
+        let record = result.find((record) => {return record.id == customerData.recordset[i].id})
+        console.log(record)
+        record.address_type.push(customerData.recordset[i].address_type)
+      }
+    }
+
+    console.log(result)
     
     
-    return customerData.recordset;
+    return result;
   } catch (e) {
     console.log(e.message);
   }

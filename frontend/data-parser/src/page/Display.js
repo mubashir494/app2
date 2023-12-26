@@ -258,7 +258,16 @@ const Display = () => {
                             >
                               Billing type :
                             </Text>{" "}
-                            {element && element.address_type ? element.address_type : <></>}
+                            {element && element.address_type ? (element.address_type.map((el,index) => {
+                              return (
+                                <>
+                                {index > 0 ? `,${el}` : el}
+                                </>
+                              )
+
+                              
+                              
+                            })) : (<></>)}
                           </ListItem>
                           <ListItem fontSize={20}>
                             <Text
