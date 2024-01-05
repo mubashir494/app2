@@ -309,14 +309,14 @@ export const search = async (req, res) => {
       const owner = prisma.owner.findMany({
         where: {
           street: {
-            contains: query,
+            search : query,
           },
         },
       });
       const address = prisma.address.findMany({
         where: {
           street: {
-            contains: query,
+            search: query,
           },
         },
       });
@@ -352,6 +352,7 @@ export const searchZip = async (req, res) => {
     const pageSize = req.query.size;
     const query = `%${req.body.query}%`;
     if (query.length >= 4) {
+
 
       const re = await prisma.owner.findMany({
         where : {
